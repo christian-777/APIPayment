@@ -1,3 +1,4 @@
+using APiPayment.Services.Contexts;
 using APIPayment.Models.Commands;
 using APIPayment.Models.Contracts;
 using APIPayment.Repositories;
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<StrategyContext>();
 builder.Services.AddScoped<PaymentCommandHandler>();
 builder.Services.AddSingleton<IRepository, MongoRepository>();
 

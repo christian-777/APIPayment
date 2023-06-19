@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using APIPayment.Models.Contracts;
 
-namespace APiPayment.Services.Strategies
+namespace APIPayment.Models.Strategies
 {
     public class Credit : IStrategy 
     {

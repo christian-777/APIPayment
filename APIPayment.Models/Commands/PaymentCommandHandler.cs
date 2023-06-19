@@ -5,31 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using APiPayment.Services.Contexts;
 using APIPayment.Models.Contracts;
-using APIPayment.Models.Dictionaries;
 using APIPayment.Models.Entities;
+using APIPayment.Models.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APIPayment.Models.Commands
 {
     public class PaymentCommandHandler
     {
         private readonly StrategyContext _context;
-        private readonly PaymentDictionary _paymentDictionary;
         private IRepository _repository;
 
-        public PaymentCommandHandler(IRepository repository)
+        public PaymentCommandHandler(IRepository repository, StrategyContext strategyContext)
         {
-            _context = new StrategyContext();
-            _paymentDictionary = new PaymentDictionary();
+            _context = strategyContext;
             _repository = repository;
         }
 
-        public async Task<Payment> Handler(Payment payment)
+        public async Task<ActionResult<Payment>> Handler(Payment payment)
         {
-            var calculatadePrice = _context.ExecutePayment(_paymentDictionary.GetPaymentType(payment.PaymentForm), payment.Value);
-
-            payment.Value = calculatadePrice;
-            
-            return _repository.InsertPayment(payment).Result;
+            try
+            {
+                var strategy = payment.GetStrategy();
+                var value = _context.ExecutePayment((IStrategy)strategy, payment.Value);
+                payment.Value = value;
+                await _repository.InsertPayment(payment);
+                return payment;
+            }
+            catch 
+            {
+                return new BadRequestObjectResult("metodo de pagamento invalido");
+            }
         }
     }
 }

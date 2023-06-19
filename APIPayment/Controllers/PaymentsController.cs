@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using APiPayment.Services.Contexts;
-using APiPayment.Services.Strategies;
+using APIPayment.Models.Strategies;
 using APIPayment.Models.Commands;
 using APIPayment.Models.Contracts;
 using APIPayment.Models.Entities;
@@ -22,7 +22,7 @@ namespace APIPayment.Controllers
         }
 
         [HttpPost(Name = "Insert Payment")]
-        public Task<Payment> InsertPayment([FromBody] Payment payment)
+        public Task<ActionResult<Payment>> InsertPayment([FromBody] Payment payment)
         {
             payment.Id = "";
             return _paymentCommandHandler.Handler(payment);
