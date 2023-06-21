@@ -1,10 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using APiPayment.Services.Contexts;
-using APIPayment.Models.Strategies;
-using APIPayment.Models.Commands;
-using APIPayment.Models.Contracts;
-using APIPayment.Models.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using APIPayment.Domain.Services;
+using APIPayment.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIPayment.Controllers
@@ -13,19 +8,19 @@ namespace APIPayment.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly PaymentCommandHandler _paymentCommandHandler;
+        private readonly PaymentService _paymentService;
         //private IRepository repository;
 
-        public PaymentsController(PaymentCommandHandler paymentCommandHandler)
+        public PaymentsController(PaymentService paymentService)
         {
-            _paymentCommandHandler = paymentCommandHandler;
+            _paymentService = paymentService;
         }
 
         [HttpPost(Name = "Insert Payment")]
         public Task<ActionResult<Payment>> InsertPayment([FromBody] Payment payment)
         {
             payment.Id = "";
-            return _paymentCommandHandler.Handler(payment);
+            return _paymentService.Handler(payment);
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace APIPayment.Models.Entities
+namespace APIPayment.Domain.Entities
 {
     public class Payment
     {

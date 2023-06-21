@@ -1,7 +1,11 @@
-using APiPayment.Services.Contexts;
-using APIPayment.Models.Commands;
-using APIPayment.Models.Contracts;
-using APIPayment.Repositories;
+using APIPayment.Domain.Contexts;
+using APIPayment.Domain.Services;
+using APIPayment.Domain.Contracts;
+using APIPayment.Domain.Entities;
+using APIPayment.Domain.Factory;
+using APIPayment.Domain.Strategies;
+using APIPayment.Infra.Repository;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +16,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IStrategy, Pix>();
+builder.Services.AddScoped<IStrategy, Credit>();
+builder.Services.AddScoped<IStrategy, Debt>();
+builder.Services.AddScoped<IStrategy, Ticket>();
+
+builder.Services.AddScoped<IPaymentFactory, PaymentFactory>();
+
 builder.Services.AddScoped<StrategyContext>();
-builder.Services.AddScoped<PaymentCommandHandler>();
-builder.Services.AddSingleton<IRepository, MongoRepository>();
+builder.Services.AddScoped<PaymentService>();
+
+var mongoSettings= builder.Configuration.GetSection(nameof(MongoRepositorySettings));
+var mongoClient= MongoClientSettings.FromConnectionString(mongoSettings.Get<MongoRepositorySettings>().ConnectionString);
+
+
+builder.Services.Configure<MongoRepositorySettings>(mongoSettings);
+builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoClient));
+
+builder.Services.AddSingleton<IRepository<Payment>, MongoRepository<Payment>>();
 
 var app = builder.Build();
 
