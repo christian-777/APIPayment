@@ -26,6 +26,7 @@ builder.Services.AddScoped<IPaymentFactory, PaymentFactory>();
 
 builder.Services.AddScoped<StrategyContext>();
 builder.Services.AddScoped<PaymentService>();
+builder.Services.AddScoped<DemandService>();
 
 var mongoSettings= builder.Configuration.GetSection(nameof(MongoRepositorySettings));
 var mongoClient= MongoClientSettings.FromConnectionString(mongoSettings.Get<MongoRepositorySettings>().ConnectionString);
@@ -35,6 +36,7 @@ builder.Services.Configure<MongoRepositorySettings>(mongoSettings);
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoClient));
 
 builder.Services.AddSingleton<IPaymentRepository, PaymentRepository >();
+builder.Services.AddSingleton<IDemandRepository, DemandRepository>();
 
 var app = builder.Build();
 

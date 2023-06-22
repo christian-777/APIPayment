@@ -13,13 +13,13 @@ namespace APIPayment.Infra.Repository
             _collection = db.GetCollection<TEntity>(typeof(TEntity).Name);
         }
 
-        public async Task<TEntity> InsertPayment(TEntity entity)
+        public async Task<TEntity> Insert(TEntity entity)
         {
             await _collection.InsertOneAsync(entity);
             return entity;
         }
 
-        public async Task<IEnumerable<TEntity>> ListPayments()
+        public async Task<IEnumerable<TEntity>> List()
         {
             return await _collection.Find(Entity => true).ToListAsync();
         }

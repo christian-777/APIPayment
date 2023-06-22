@@ -27,7 +27,7 @@ namespace APIPayment.Domain.Services
                 var value = _context.ExecutePayment(strategy, payment.Value);
                 payment.Value = value;
                 payment.PaymentForm=payment.PaymentForm.ToUpper();
-                await _repository.InsertPayment(payment);
+                await _repository.Insert(payment);
                 return payment;
             }
             catch 

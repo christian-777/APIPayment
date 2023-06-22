@@ -2,7 +2,7 @@
 {
     public interface IRepository<TEnitity> 
     {
-        Task<TEnitity> InsertPayment(TEnitity enitity);
-        Task<IEnumerable<TEnitity>> ListPayments();
+        Task<TEnitity> Insert(TEnitity enitity);
+        Task<IEnumerable<TEnitity>> List();
     }
 }

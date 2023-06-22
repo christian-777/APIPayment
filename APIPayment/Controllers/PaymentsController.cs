@@ -9,7 +9,6 @@ namespace APIPayment.Controllers
     public class PaymentsController : ControllerBase
     {
         private readonly PaymentService _paymentService;
-        //private IRepository repository;
 
         public PaymentsController(PaymentService paymentService)
         {
