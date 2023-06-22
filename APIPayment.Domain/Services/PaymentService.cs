@@ -9,10 +9,10 @@ namespace APIPayment.Domain.Services
     public class PaymentService
     {
         private readonly StrategyContext _context;
-        private IRepository<Payment> _repository;
+        private IPaymentRepository _repository;
         private IPaymentFactory _factory;
 
-        public PaymentService(IRepository<Payment> repository, StrategyContext strategyContext, IPaymentFactory factory)
+        public PaymentService(IPaymentRepository repository, StrategyContext strategyContext, IPaymentFactory factory)
         {
             _context = strategyContext;
             _repository = repository;
@@ -26,6 +26,7 @@ namespace APIPayment.Domain.Services
                 var strategy = _factory.GetStrategy(payment.PaymentForm);
                 var value = _context.ExecutePayment(strategy, payment.Value);
                 payment.Value = value;
+                payment.PaymentForm=payment.PaymentForm.ToUpper();
                 await _repository.InsertPayment(payment);
                 return payment;
             }

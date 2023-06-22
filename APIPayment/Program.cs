@@ -6,6 +6,7 @@ using APIPayment.Domain.Factory;
 using APIPayment.Domain.Strategies;
 using APIPayment.Infra.Repository;
 using MongoDB.Driver;
+using APIPayment.Infra.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ var mongoClient= MongoClientSettings.FromConnectionString(mongoSettings.Get<Mong
 builder.Services.Configure<MongoRepositorySettings>(mongoSettings);
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(mongoClient));
 
-builder.Services.AddSingleton<IRepository<Payment>, MongoRepository<Payment>>();
+builder.Services.AddSingleton<IPaymentRepository, PaymentRepository >();
 
 var app = builder.Build();
 
