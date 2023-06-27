@@ -7,15 +7,17 @@ namespace APIPayment.Infra.Repository
     public class MongoRepository<TEntity> : IRepository<TEntity>
     {
         protected readonly IMongoCollection<TEntity> _collection;
-        public MongoRepository(IMongoClient client, IOptions<MongoRepositorySettings> options)
+        private readonly IMongoContext _context;
+        public MongoRepository(IMongoClient client, IOptions<MongoRepositorySettings> options, IMongoContext context)
         {
             var db = client.GetDatabase(options.Value.DatabaseName);
             _collection = db.GetCollection<TEntity>(typeof(TEntity).Name);
+            _context = context;
         }
 
         public async Task<TEntity> Insert(TEntity entity)
         {
-            await _collection.InsertOneAsync(entity);
+            _context.AddCommand(()=> _collection.InsertOneAsync(entity));
             return entity;
         }
 

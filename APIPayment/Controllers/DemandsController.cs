@@ -1,5 +1,6 @@
-﻿using APIPayment.Domain.Entities;
-using APIPayment.Domain.Services;
+﻿using APIPayment.Domain.Commands.Demand.V1.Create;
+using APIPayment.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +10,18 @@ namespace APIPayment.Controllers
     [ApiController]
     public class DemandsController : ControllerBase
     {
-        private readonly DemandService _demandService;
+        private readonly CreateDemandCommandHandler _demandService;
+        private readonly IMediator _mediator;
 
-        public DemandsController(DemandService demandService)
+        public DemandsController(IMediator mediator)
         {
-            _demandService = demandService;
+            _mediator = mediator;
         }
 
         [HttpPost(Name = "Insert Demand")]
-        public Task<ActionResult<Demand>> InsertDemand([FromBody] Demand demand)
+        public Task<Guid> InsertDemand([FromBody] CreateDemandCommand demand, CancellationToken cancellationToken)
         {
-            demand.Id = "";
-            return _demandService.Handler(demand);
+            return _mediator.Send(demand, cancellationToken);
         }
     }
 }

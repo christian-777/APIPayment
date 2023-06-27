@@ -1,6 +1,9 @@
-﻿using APIPayment.Domain.Services;
-using APIPayment.Domain.Entities;
+﻿using APIPayment.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using APIPayment.Domain.Commands.Payment.V1.Create;
+using MediatR;
+using APIPayment.Domain.Contracts;
+using System.Net;
 
 namespace APIPayment.Controllers
 {
@@ -8,18 +11,25 @@ namespace APIPayment.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly PaymentService _paymentService;
+        private readonly IMediator _mediator;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PaymentsController(PaymentService paymentService)
+        public PaymentsController(IMediator mediator, IUnitOfWork unitOfWork)
         {
-            _paymentService = paymentService;
+            _mediator = mediator;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost(Name = "Insert Payment")]
-        public Task<ActionResult<Payment>> InsertPayment([FromBody] Payment payment)
+        public ActionResult<Guid> InsertPayment([FromBody] CreatePaymentCommand payment, CancellationToken cancellationToken)
         {
-            payment.Id = "";
-            return _paymentService.Handler(payment);
+            var aux=_mediator.Send(payment, cancellationToken);
+            _mediator.Send(payment, cancellationToken);
+
+            if (_unitOfWork.Commit().Result)
+                return Created("", aux);
+            else
+                return StatusCode(503);
         }
     }
 }
