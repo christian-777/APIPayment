@@ -1,4 +1,4 @@
-using APIPayment.Domain.Contexts;
+﻿using APIPayment.Domain.Contexts;
 using APIPayment.Domain.Contracts;
 using APIPayment.Domain.Entities;
 using APIPayment.Domain.Factory;
@@ -8,8 +8,13 @@ using MongoDB.Driver;
 using APIPayment.Domain.Commands.Demand.V1.Create;
 using APIPayment.Domain.Commands.Payment.V1.Create;
 using APIPayment;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using APIPayment.Infra.Repository.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<APIPaymentContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("APIPaymentContext") ?? throw new InvalidOperationException("Connection string 'APIPaymentContext' not found.")));
 
 //dependency injection 
 

@@ -1,8 +1,15 @@
-﻿using APIPayment.Domain.Commands.Demand.V1.Create;
-using APIPayment.Domain.Entities;
-using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using APIPayment.Infra.Repository.Data;
+using APIPayment.Domain.Entities;
+using APIPayment.Domain.Commands.Demand.V1.Create;
+using MediatR;
+using APIPayment.Domain.Contracts;
 
 namespace APIPayment.Controllers
 {
@@ -10,18 +17,20 @@ namespace APIPayment.Controllers
     [ApiController]
     public class DemandsController : ControllerBase
     {
-        private readonly CreateDemandCommandHandler _demandService;
         private readonly IMediator _mediator;
+        private readonly IUnitOfWork _unitOfWork;
 
         public DemandsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost(Name = "Insert Demand")]
-        public Task<Guid> InsertDemand([FromBody] CreateDemandCommand demand, CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<ActionResult> PostDemand(CreateDemandCommand demand, CancellationToken cancellationToken)
         {
-            return _mediator.Send(demand, cancellationToken);
+            var demandid=_mediator.Send(demand, cancellationToken);
+
+            return _unitOfWork.Commit().Result ? Created("", demandid) : StatusCode(503);
         }
     }
 }

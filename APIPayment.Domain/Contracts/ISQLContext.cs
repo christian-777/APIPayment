@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIPayment.Domain.Contracts
 {
-    public interface IMongoContext
+    public interface ISQLContext
     {
         void AddCommand(Func<Task> func);
         Task<bool> SaveChanges();

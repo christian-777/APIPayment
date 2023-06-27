@@ -42,12 +42,7 @@ namespace APIPayment
 
         private static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            var mongoSettings = configuration.GetSection(nameof(MongoRepositorySettings));
-            var mongoClient = MongoClientSettings.FromConnectionString(mongoSettings.Get<MongoRepositorySettings>().ConnectionString);
-
-            services.Configure<MongoRepositorySettings>(mongoSettings);
-            services.AddSingleton<IMongoClient>(new MongoClient(mongoClient));
-            services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
+            services.AddSingleton(typeof(IRepository<>), typeof(SQLRepository<>));
         }
 
         private static void AddContexts(this IServiceCollection services)
@@ -70,7 +65,7 @@ namespace APIPayment
 
         private static void AddRepositoriesContexts(this IServiceCollection services)
         {
-            services.AddSingleton<IMongoContext, MongoContext>();
+            services.AddSingleton<ISQLContext, SQLContext>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)

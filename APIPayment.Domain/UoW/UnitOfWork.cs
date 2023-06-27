@@ -9,9 +9,9 @@ namespace APIPayment.Domain.UoW
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IMongoContext _context;
+        private readonly ISQLContext _context;
 
-        public UnitOfWork(IMongoContext context)
+        public UnitOfWork(ISQLContext context)
         {
             _context = context;
         }
