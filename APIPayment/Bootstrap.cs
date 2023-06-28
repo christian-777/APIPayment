@@ -7,6 +7,7 @@ using APIPayment.Domain.Strategies;
 using APIPayment.Domain.UoW;
 using APIPayment.Infra.Repository;
 using APIPayment.Infra.Repository.Context;
+using APIPayment.Infra.Repository.Data;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Driver;
 
@@ -65,12 +66,12 @@ namespace APIPayment
 
         private static void AddRepositoriesContexts(this IServiceCollection services)
         {
-            services.AddSingleton<ISQLContext, SQLContext>();
+            services.AddScoped<ISQLContext, SQLContext>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

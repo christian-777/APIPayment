@@ -5,48 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using APIPayment.Domain.Contracts;
 using APIPayment.Infra.Repository.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace APIPayment.Infra.Repository.Context
 {
-    public class SQLContext : ISQLContext
+    public class SQLContext : DbContext, ISQLContext
     {
-        private readonly APIPaymentContext _client;
-        private readonly List<Func<Task>> _commands;
-        public SQLContext(APIPaymentContext client)
+        public SQLContext(DbContextOptions options): base(options)
         {
-            _client= client;
-            _commands = new List<Func<Task>>();
-        }
-        public void AddCommand(Func<Task> func)
-        {
-            _commands.Add(func);
         }
 
         public async Task<bool> SaveChanges()
         {
-            var status = true;
-            using(var transaction= await _client.Database.BeginTransactionAsync())
+            bool stt = true;
+            try
             {
-
-                var commandsTasks = _commands.Select(command => command());
-
-                try
-                {
-                    await Task.WhenAll(commandsTasks);
-
-                    transaction.Commit();
-                }
-                catch
-                {
-                    status = false;
-                    transaction.Rollback();
-                }
-                
-                _commands.Clear();
+                await base.SaveChangesAsync();
             }
-            return status;
+            catch
+            {
+                stt = false;
+            } 
+            return stt;
         }
     }
 }

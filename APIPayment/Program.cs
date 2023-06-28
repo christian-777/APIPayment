@@ -1,16 +1,8 @@
-﻿using APIPayment.Domain.Contexts;
+﻿using APIPayment;
 using APIPayment.Domain.Contracts;
-using APIPayment.Domain.Entities;
-using APIPayment.Domain.Factory;
-using APIPayment.Domain.Strategies;
-using APIPayment.Infra.Repository;
-using MongoDB.Driver;
-using APIPayment.Domain.Commands.Demand.V1.Create;
-using APIPayment.Domain.Commands.Payment.V1.Create;
-using APIPayment;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using APIPayment.Infra.Repository.Data;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<APIPaymentContext>(options =>
@@ -29,7 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

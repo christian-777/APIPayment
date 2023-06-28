@@ -6,20 +6,18 @@ using MongoDB.Driver;
 
 namespace APIPayment.Infra.Repository
 {
-    public class SQLRepository<TEntity> : IRepository<TEntity>
+    public class SQLRepository<TEntity> where TEntity : class , IRepository<TEntity>
     {
-        private readonly APIPaymentContext _contextEntity;
         private readonly ISQLContext _sqlContext;
 
-        public SQLRepository(APIPaymentContext contextEntity, ISQLContext sqlContext)
+        public SQLRepository(ISQLContext sqlContext)
         {
-            _contextEntity = contextEntity;
             _sqlContext = sqlContext;   
         }
 
         public async Task<TEntity> Insert(TEntity entity)
         {
-            _sqlContext.AddCommand(()=>_contextEntity.AddAsync(entity).AsTask());
+            _sqlContext.Set<TEntity>().Add(entity);
             return entity;
         }
     }

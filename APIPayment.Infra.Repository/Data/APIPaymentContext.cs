@@ -7,7 +7,7 @@ using APIPayment.Domain.Entities;
 
 namespace APIPayment.Infra.Repository.Data
 {
-    public class APIPaymentContext : DbContext
+    public class APIPaymentContext : DbContext 
     {
         public APIPaymentContext (DbContextOptions<APIPaymentContext> options)
             : base(options)
