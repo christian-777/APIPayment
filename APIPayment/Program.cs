@@ -1,12 +1,13 @@
 ﻿using APIPayment;
 using APIPayment.Domain.Contracts;
-using APIPayment.Infra.Repository.Data;
+using APIPayment.Infra.Repository.Context;
+using APIPayment.Infra.Repository.Repositories;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<APIPaymentContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("APIPaymentContext") ?? throw new InvalidOperationException("Connection string 'APIPaymentContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("APIPaymentContext")));
 
 //dependency injection 
 
@@ -23,7 +24,6 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

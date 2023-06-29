@@ -1,15 +1,14 @@
-﻿using APIPayment.Domain.Commands.Demand.V1.Create;
-using APIPayment.Domain.Commands.Payment.V1.Create;
-using APIPayment.Domain.Contexts;
+﻿using APIPayment.Application.Commands.Demand.V1.Create;
+using APIPayment.Application.Commands.Payment.V1.Create;
 using APIPayment.Domain.Contracts;
-using APIPayment.Domain.Factory;
-using APIPayment.Domain.Strategies;
-using APIPayment.Domain.UoW;
+using APIPayment.Application;
+using APIPayment.Application.Strategies;
+using APIPayment.Infra.Repository;
 using APIPayment.Infra.Repository;
 using APIPayment.Infra.Repository.Context;
-using APIPayment.Infra.Repository.Data;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using MongoDB.Driver;
+using APIPayment.Infra.Repository.Repositories;
+using Microsoft.EntityFrameworkCore;
+using APIPayment.Domain.Contexts;
 
 namespace APIPayment
 {
@@ -21,10 +20,8 @@ namespace APIPayment
             services.AddMappers();
             services.AddCommands();
             services.AddStrategies();
-            services.AddContexts();
             services.AddFactories();
-            services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<IMediaTRDependencyInjection>());
-            services.AddRepositoriesContexts();
+            services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<CreateDemandCommandHandler>());
             services.AddUnitOfWork();
 
             return services;
@@ -43,12 +40,10 @@ namespace APIPayment
 
         private static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(typeof(IRepository<>), typeof(SQLRepository<>));
-        }
-
-        private static void AddContexts(this IServiceCollection services)
-        {
-            services.AddScoped<StrategyContext>();
+            services.AddScoped<DbContext,APIPaymentContext>();
+            services.AddScoped(typeof(IRepository<>), typeof(SQLRepository<>));
+            services.AddScoped<ITesteRepository, TesteRepository>();
+          
         }
 
         private static void AddFactories(this IServiceCollection services)
@@ -58,15 +53,11 @@ namespace APIPayment
         
         private static void AddStrategies(this IServiceCollection services)
         {
+            services.AddScoped<Strategy>();
             services.AddScoped<IStrategy, Pix>();
             services.AddScoped<IStrategy, Credit>();
             services.AddScoped<IStrategy, Debt>();
             services.AddScoped<IStrategy, Ticket>();
-        }
-
-        private static void AddRepositoriesContexts(this IServiceCollection services)
-        {
-            services.AddScoped<ISQLContext, SQLContext>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)

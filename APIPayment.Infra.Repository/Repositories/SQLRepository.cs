@@ -1,24 +1,24 @@
 ﻿using APIPayment.Domain.Contracts;
-using APIPayment.Infra.Repository.Data;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using APIPayment.Infra.Repository.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace APIPayment.Infra.Repository
+namespace APIPayment.Infra.Repository.Repositories
 {
-    public class SQLRepository<TEntity> where TEntity : class , IRepository<TEntity>
+  
+    public class SQLRepository<TEntity> : IRepository<TEntity>  where TEntity : class  
     {
-        private readonly ISQLContext _sqlContext;
+        private readonly DbContext _sqlContext;
 
-        public SQLRepository(ISQLContext sqlContext)
+        public SQLRepository(DbContext sqlContext)
         {
             _sqlContext = sqlContext;   
         }
 
-        public async Task<TEntity> Insert(TEntity entity)
+        public async Task Insert(TEntity entity)
         {
-            _sqlContext.Set<TEntity>().Add(entity);
-            return entity;
+            await _sqlContext.Set<TEntity>().AddAsync(entity);
         }
     }
 }

@@ -1,7 +1,13 @@
-﻿namespace APIPayment.Domain.Contracts
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+
+namespace APIPayment.Domain.Contracts
 {
-    public interface IRepository<TEnitity> 
+        public interface IRepository<TEntity> 
     {
-        Task<TEnitity> Insert(TEnitity enitity);
+        Task Insert(TEntity entity);
     }
 }

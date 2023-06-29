@@ -5,15 +5,19 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIPayment", "APIPayment\APIPayment.csproj", "{529CAB34-E811-4867-B071-176B35380130}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- Application", "1- Application", "{D2FC7011-62FF-47E8-97EA-789B327F0C9A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- Presentation", "1- Presentation", "{D2FC7011-62FF-47E8-97EA-789B327F0C9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2- Domain", "2- Domain", "{E67F0D31-C2C0-4E89-BFE9-D229D4B3BA59}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3- Infrastructure", "3- Infrastructure", "{E9914BED-6A91-4403-AC85-303FE5CF92A3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4- Infrastructure", "4- Infrastructure", "{E9914BED-6A91-4403-AC85-303FE5CF92A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIPayment.Domain", "APIPayment.Domain\APIPayment.Domain.csproj", "{30D13403-D9DE-47CF-84D9-3CCC2BA3C5CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIPayment.Infra.Repository", "APIPayment.Infra.Repository\APIPayment.Infra.Repository.csproj", "{92519F88-F0FB-4348-86EE-8E55ABB5510C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIPayment.Infra.Repository", "APIPayment.Infra.Repository\APIPayment.Infra.Repository.csproj", "{92519F88-F0FB-4348-86EE-8E55ABB5510C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Application", "3 - Application", "{AFF64AB8-858B-4CA8-ADB3-D96AF922C18E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPayment.Application", "ApiPayment.Service\ApiPayment.Application.csproj", "{58C2E5EB-11F5-43B2-9DE4-CD83404509F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,10 @@ Global
 		{92519F88-F0FB-4348-86EE-8E55ABB5510C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92519F88-F0FB-4348-86EE-8E55ABB5510C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92519F88-F0FB-4348-86EE-8E55ABB5510C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C2E5EB-11F5-43B2-9DE4-CD83404509F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C2E5EB-11F5-43B2-9DE4-CD83404509F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C2E5EB-11F5-43B2-9DE4-CD83404509F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C2E5EB-11F5-43B2-9DE4-CD83404509F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,7 @@ Global
 		{529CAB34-E811-4867-B071-176B35380130} = {D2FC7011-62FF-47E8-97EA-789B327F0C9A}
 		{30D13403-D9DE-47CF-84D9-3CCC2BA3C5CA} = {E67F0D31-C2C0-4E89-BFE9-D229D4B3BA59}
 		{92519F88-F0FB-4348-86EE-8E55ABB5510C} = {E9914BED-6A91-4403-AC85-303FE5CF92A3}
+		{58C2E5EB-11F5-43B2-9DE4-CD83404509F0} = {AFF64AB8-858B-4CA8-ADB3-D96AF922C18E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {013B48D4-3800-4784-A213-E74C35BB671D}
